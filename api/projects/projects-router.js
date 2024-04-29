@@ -27,7 +27,7 @@ router.post('/', Middle.validateBody, async (req, res) => {
 })
 
 router.put('/:id', Middle.validateId, Middle.validateBody, async (req, res) => {
-	const updatedProject = await Projects.update(req.params.id, req.body)
+	const updatedProject = await Projects.update(req.params.id, req.info)
 	res.status(200).json(updatedProject)
 })
 

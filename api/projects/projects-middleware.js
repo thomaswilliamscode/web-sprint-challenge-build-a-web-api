@@ -21,10 +21,19 @@ async function validateId(req, res, next){
 async function validateBody(req, res, next) {
 	// name string 
 	// description string
-	const { name, description } = req.body
+	const { name, description, completed } = req.body
 
-	if (name && description) {
+	if (name && description && completed) {
 		if(name.trim() && description.trim()) {
+			req.info = {
+				name: name.trim(),
+				description: description.trim()
+			}
+			if(completed) {
+				req.info.completed = completed
+			} else {
+				req.info.completed = false
+			}
 			next()
 		} 
 	} else {

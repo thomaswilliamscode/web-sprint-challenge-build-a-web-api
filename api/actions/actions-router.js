@@ -15,12 +15,12 @@ router.get('/:id', Middle.validateId, (req, res) => {
 	res.status(200).json(req.action);
 });
 
-router.post('/', Middle.validateBody, async (req, res) => {
-	const newAction = await Actions.insert(req.info)
+router.post('/', Middle.validateBodyPost, async (req, res) => {
+	const newAction = await Actions.insert(req.body)
 	res.status(201).json(newAction)
 })
 
-router.put('/:id', Middle.validateId, Middle.validateBody, async (req, res) => {
+router.put('/:id', Middle.validateId, Middle.validateBodyPut, async (req, res) => {
 	const updatedInfo = await Actions.update(req.id, req.body)
 
 	res.status(201).json(updatedInfo)

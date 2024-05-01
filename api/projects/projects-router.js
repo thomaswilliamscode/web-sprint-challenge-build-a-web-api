@@ -20,14 +20,14 @@ router.get('/:id', Middle.validateId, (req, res) => {
 
 })
 
-router.post('/', Middle.validateBody, async (req, res) => {
+router.post('/', Middle.validateBodyPost, async (req, res) => {
 	// id and completed are created when project creates.
 	const newProject = await Projects.insert(req.body)
 	res.status(201).json(newProject)
 })
 
-router.put('/:id', Middle.validateId, Middle.validateBody, async (req, res) => {
-	const updatedProject = await Projects.update(req.params.id, req.info)
+router.put('/:id', Middle.validateId, Middle.validateBodyPut, async (req, res) => {
+	const updatedProject = await Projects.update(req.params.id, req.body)
 	res.status(200).json(updatedProject)
 })
 

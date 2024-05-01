@@ -4,7 +4,8 @@ const Project = require('../projects/projects-model')
 
 module.exports = {
 	validateId, 
-	validateBody,
+	validateBodyPost,
+	validateBodyPut
 }
 
 async function validateId(req, res, next) {
@@ -19,7 +20,7 @@ async function validateId(req, res, next) {
 	}
 }
 
-async function validateBody(req, res, next) {
+async function validateBodyPost(req, res, next) {
 	// project_id
 	// description up to 128 characters
 	// notes
@@ -30,27 +31,19 @@ async function validateBody(req, res, next) {
 	} = req.body
 
 	if(project_id && description && notes){
-		const project = await Project.getProjectActions(project_id)
-		if(project.length > 0) {
-			description = description.trim();
-			notes = notes.trim();
-			const length = description.length;
-			if (length > 128) {
-				res.status(400).json({
-						message: 'description must be less than 128 characters long',
-					});
-			}
-			req.info = {
-				project_id: project_id,
-				description: description,
-				notes: notes
-			}
-			next()
-		} else {
-			res.status(404).json({message: `no project ${project_id} exists`})
-		}
-		
+		next()
 	} else {
 		res.status(400).json({message: 'must include project_id, description, and notes'})
+	}
+}
+
+async function validateBodyPut(req, res, next) {
+	let { project_id, description, notes } = req.body
+	if(project_id, description, notes) {
+		next()
+	} else {
+		res
+			.status(400)
+			.json({ message: 'must include project_id, description, and notes' });
 	}
 }

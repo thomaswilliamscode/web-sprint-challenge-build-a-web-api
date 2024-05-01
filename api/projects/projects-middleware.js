@@ -3,7 +3,8 @@ const Projects = require('./projects-model')
 
 module.exports = {
 	validateId, 
-	validateBody,
+	validateBodyPost,
+	validateBodyPut
 
 }
 
@@ -39,9 +40,21 @@ async function validateBody(req, res, next) {
 	} else {
 		res.status(400).json({message: 'name and description must be included'})
 	}
+}
+async function validateBodyPost(req, res, next) {
+	const {name, description} = req.body
+	if (name && description) {
+		next()
+	} else {
+		res.status(400).json({ message: 'name and description must be included' });
+	}
+}
 
-
-
-
-	
+async function validateBodyPut(req, res, next) {
+	const { name, description, completed } = req.body;
+	if ((name && description) && (completed === true || completed === false)) {
+		next();
+	} else {
+		res.status(400).json({ message: 'name and description must be included' });
+	}
 }
